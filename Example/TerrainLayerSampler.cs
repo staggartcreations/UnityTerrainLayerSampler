@@ -8,10 +8,7 @@ using sc.terrain.layersampler;
 [ExecuteInEditMode]
 public class TerrainLayerSampler : MonoBehaviour
 {
-    // This array is where the sampled data is going to be stored into. It is initialized/resized when needed by the TerrainLayerData.Sample function
-    // The float elements in this array correspond to how strongly a terrain material is painted at the sampled position
-    // The first layer added to the terrain is represented by the first array element, and so forth. Here an Enum is used to identify them, it's been mirrored with the terrain in the example scene.
-    public float[] weights;
+    public LayerMask terrainLayer = -1;
     
     public enum TerrainLayers
     {
@@ -23,9 +20,19 @@ public class TerrainLayerSampler : MonoBehaviour
 
     [Header("Example outputs")]
     [Range(0f, 1f)]
-    public float slipperyness;
+    public float grassAmount;
     [Range(0f, 1f)]
-    public float softness;
+    public float dirtAmount;
+    [Range(0f, 1f)]
+    public float snowAmount;
+    [Range(0f, 1f)]
+    public float sandAmount;
+    
+    // This array is where the sampled data is going to be stored into. It is initialized/resized when needed by the TerrainLayerData.Sample function
+    // The float elements in this array correspond to how strongly a terrain material is painted at the sampled position
+    // The first layer added to the terrain is represented by the first array element, and so forth. Here an Enum is used to identify them, it's been mirrored with the terrain in the example scene.
+    private float[] weights;
+    private TerrainLayerData layerData;
 
     private Vector3 samplePosition;
 
@@ -44,26 +51,26 @@ public class TerrainLayerSampler : MonoBehaviour
     private void ReadTerrainMaterialWeights()
     {
         /// Lazy runtime function. Finds a terrain below the position and gets a TerrainMaterialComponent reference from it.
-        TerrainLayerData data = Find(samplePosition);
+        layerData = FindData(samplePosition);
         
-        weights = data.Sample(samplePosition, true);
-
-        //An example, based on how strongly this supposed layer is painted, you could deduce a physics property
-        slipperyness = weights[(int)TerrainLayers.Snow];
-
-        softness = Mathf.Max(weights[(int)TerrainLayers.Grass], weights[(int)TerrainLayers.Dirt]);
+        weights = layerData.Sample(samplePosition, true);
+        
+        grassAmount = weights[(int)TerrainLayers.Grass];
+        dirtAmount = weights[(int)TerrainLayers.Dirt];
+        snowAmount = weights[(int)TerrainLayers.Snow];
+        sandAmount = weights[(int)TerrainLayers.Sand];
     }
-    
+
     private static RaycastHit hit;
     private static Ray ray = new Ray();
     private static TerrainLayerData m_Data;
     
-    private static TerrainLayerData Find(Vector3 position)
+    private TerrainLayerData FindData(Vector3 position)
     {
         ray.direction = Vector3.down;
         ray.origin = position + (Vector3.up * 1000f);
 
-        if (Physics.Raycast(ray, out hit, 2000, -1, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(ray, out hit, 2000, (int)terrainLayer, QueryTriggerInteraction.Ignore))
         {
             if (hit.collider.GetType() == typeof(TerrainCollider))
             {
