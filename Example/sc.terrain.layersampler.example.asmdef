@@ -1,0 +1,16 @@
+{
+    "name": "sc_terrain_layersampler_example",
+    "rootNamespace": "",
+    "references": [
+        "GUID:497284260ea622644a02e15794df888e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
