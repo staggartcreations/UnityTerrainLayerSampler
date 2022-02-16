@@ -7,18 +7,19 @@ Scripting functionality to efficiently read terrain layer weights in realtime.
 
 The painted strength of a terrain layer is stored in a channel of an RGBA splatmap texture. Reading this back using Texture2D.GetPixel is too slow for realtime uses.
 
-Instead this script can pre-bake this information into a ScriptableObject, and provides an API for sampling the data at any given world-space position, and returns the weights for each terrain layer.
+Instead this script can pre-bake this information into a ScriptableObject, and provides an API for sampling the data at any given world-space position. The weight/strength for each terrain layer is returned as an array.
 
 - Sampling is performed using bi-linear interpolation, providing smoothly interpolated data between splatmap texels.
-- Data is automatically re-baked after terrain texture painting modifications
+- Data is automatically updated for areas that are modified through terrain texture painting. This ensures fast updates and retains common workflows.
 
-## Use cases
+## Example use cases
 
-- Controlling particle effects for feet and wheels
-- Driving audio events or parameters
-- Deriving physics properties for the terrain surface (eg. checking if the ground is icy or wet)
+- Controlling particle effects for feet and/or wheels.
+- Driving audio events or parameters.
+- Deriving physics properties from the terrain surface (eg. checking if the ground is icy or wet).
+- Prefab spawning, based on textures.
 
-# Getting the it
+# Adding it to a project
 
 **via Package Manager:**
 
@@ -37,11 +38,13 @@ Instead this script can pre-bake this information into a ScriptableObject, and p
 
 ## Usage instructions
 - Add the `TerrainLayerComponent` to your terrain(s)
-- See the `Example/TerrainLayerSampler` script for further details. 
 
-*A `TerrainLayerData` asset will automatically be added, and will be save with the scene. You can however choose to use a ScriptableObject that is saved on disk. In order to do so, right-click in the Project window and choose `Create/TerrainLayerData`.*
+*A `TerrainLayerData` asset will automatically be created, and will be saved on the component with the scene. You can however choose to use a ScriptableObject that is saved on disk. In order to do so, right-click in the Project window and choose `Create/TerrainLayerData` and assign it. The context menu on the component has a "Bake" option.*
 
-*Note that a single 256px splatmap can already take up ~5mb of disk space*
+- See the `Example/TerrainLayerSampler` script for further practical details.
 
-- A reference to a `TerrainLayerData` is always required to sample data. It always belongs to a specific terrain and is referenced on the `TerrainLayerComponent` component.
+**Scripting Workflow**
+- Find a reference to the terrain you are on (either through Raycasting, or a custom look-up method). This is likely needed anyway (eg. checking if feet are grounded).
+- Once found, the `TerrainLayerComponent` can be fetched through GetComponent, and its `data` field can be accessed. 
+- Finally, the `data.Sample(Vector3 position, bool interpolated)` function can be called, which returns a `float[]` array. Each array element corresponds to a layer on the terrain (in the same order as they are added to it). The float values represent the strength a layer at the given position (always between 0 and 1).
 
