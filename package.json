@@ -1,0 +1,24 @@
+﻿{
+  "name": "sc.terrain.layersampler",
+  "description": "Scripting functionality to efficiently read terrain layer weights. Can be used to drive physics, VFX and/or SFX.",
+  "version": "1.0.0",
+  "unity": "2019.3",
+  "displayName": "Terrain Layer Sampler",
+  "author": {
+    "name": "Staggart Creations",
+    "email": "contact@staggart.xyz",
+    "url": "http://staggart.xyz/"
+  },
+  "keywords": [
+    "terrain",
+    "texturing",
+    "vfx"
+  ],
+  "samples": [
+    {
+      "displayName": "Example",
+      "description": "An example terrain and sampling script using the API",
+      "path": "Example"
+    }
+  ]
+}
