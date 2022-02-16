@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace sc.terrain.materialsampler
+namespace sc.terrain.layersampler
 {
     [CreateAssetMenu(fileName = "TerrainLayerData", menuName = "TerrainLayerData", order = 0)]
     public class TerrainLayerData : ScriptableObject

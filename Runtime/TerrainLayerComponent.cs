@@ -5,7 +5,7 @@ using UnityEngine.TerrainTools;
 using UnityEngine.Experimental.TerrainAPI;
 #endif
 
-namespace sc.terrain.materialsampler
+namespace sc.terrain.layersampler
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(Terrain))]

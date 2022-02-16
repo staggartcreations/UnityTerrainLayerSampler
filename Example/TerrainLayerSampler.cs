@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using sc.terrain.materialsampler;
+using sc.terrain.layersampler;
 
 /// <summary>
 /// An example MonoBehaviour that uses the API to sample a position and retrieve a set of of weights as a float array

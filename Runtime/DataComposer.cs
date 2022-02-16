@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace sc.terrain.materialsampler
+namespace sc.terrain.layersampler
 {
     public static class DataComposer
     {
