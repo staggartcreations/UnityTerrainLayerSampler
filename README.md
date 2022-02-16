@@ -1,6 +1,8 @@
 # Terrain Layer Sampler for Unity
 Scripting functionality to efficiently read terrain layer weights in realtime.
 
+![Image](https://i.imgur.com/cD285sQ.gif "Example")
+
 ## Motivations
 
 The painted strength of a terrain layer is stored in a channel of an RGBA splatmap texture. Reading this back using Texture2D.GetPixel is too slow for realtime uses.
